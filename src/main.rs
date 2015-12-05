@@ -1,6 +1,5 @@
 extern crate piston_window;
 extern crate rand;
-extern crate graphics;
 
 use piston_window::*;
 use rand::os::OsRng;
