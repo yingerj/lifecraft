@@ -7,6 +7,21 @@ use piston_window::*;
 const GRID_SIZE: usize = 10; //cells
 const CELL_SIZE: usize = 10; //pixels
 
+fn checkerboard(grid: &mut [[u8; GRID_SIZE]; GRID_SIZE]) {
+    let mut fill: bool = true;
+    for x in 0..GRID_SIZE {
+        for y in 0..GRID_SIZE {
+            fill = !fill;
+            if fill {
+                grid[x][y] = fill as u8;
+            }
+        }
+        if GRID_SIZE % 2 == 0 {
+            fill = !fill;
+        }
+    }
+}
+
 fn main() {
     // Place to store latest mouse possition from mouse event
     let mut mouse_x: f64 = 0.0;
@@ -20,18 +35,7 @@ fn main() {
         .exit_on_esc(true).build().unwrap();
 
     // Our checkerboard initial values
-    let mut fill: bool = true;
-    for x in 0..GRID_SIZE {
-        for y in 0..GRID_SIZE {
-            fill = !fill;
-            if fill {
-                grid[x][y] = fill as u8;
-            }
-        }
-        if GRID_SIZE % 2 == 0 {
-            fill = !fill;
-        }
-    }
+    checkerboard(&mut grid);
 
     // For each window event e:
     for e in window {
@@ -46,9 +50,6 @@ fn main() {
                                   [x_position, y_position, CELL_SIZE as f64, CELL_SIZE as f64],
                                   c.transform, g);
                     }
-                }
-                if GRID_SIZE % 2 == 0 {
-                    fill = !fill;
                 }
             }
         });
