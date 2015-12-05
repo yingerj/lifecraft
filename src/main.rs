@@ -1,33 +1,34 @@
 extern crate piston_window;
-extern crate rand;
+//extern crate rand;
 
 use piston_window::*;
-use rand::os::OsRng;
+//use rand::os::OsRng;
 
-const grid_size: usize = 10;
-const cell_size: usize = 10;
-
+const GRID_SIZE: usize = 10; //cells
+const CELL_SIZE: usize = 10; //pixels
 
 fn main() {
+    // Place to store latest mouse possition from mouse event
+    let mut mouse_x: f64 = 0.0;
+    let mut mouse_y: f64 = 0.0;
     // Set up our game board
-    let mut grid: [[u8; grid_size]; grid_size] = [[0; grid_size]; grid_size];
+    let mut grid: [[u8; GRID_SIZE]; GRID_SIZE] = [[0; GRID_SIZE]; GRID_SIZE];
 
     // Set up our window, duh
     let window: PistonWindow =
-        WindowSettings::new("Hello Piston!", [(grid_size * cell_size) as u32; 2])
+        WindowSettings::new("lifecraft", [(GRID_SIZE * CELL_SIZE) as u32; 2])
         .exit_on_esc(true).build().unwrap();
 
     // Our checkerboard initial values
     let mut fill: bool = true;
-    for x in 0..grid_size {
-        for y in 0..grid_size {
+    for x in 0..GRID_SIZE {
+        for y in 0..GRID_SIZE {
             fill = !fill;
-            println!("fill: {}", fill);
             if fill {
                 grid[x][y] = fill as u8;
             }
         }
-        if grid_size % 2 == 0 {
+        if GRID_SIZE % 2 == 0 {
             fill = !fill;
         }
     }
@@ -35,27 +36,33 @@ fn main() {
     // For each window event e:
     for e in window {
         e.draw_2d(|c, g| {
-            println!("Redraw");
             clear([1.0; 4], g);
-            for x in 0..grid_size {
-                let x_min: f64 = (x * cell_size) as f64;
-                let x_max: f64 = x_min + (cell_size as f64);
-                println!("x min: {} max: {}", x_min, x_max);
-                for y in 0..grid_size {
-                    let y_min: f64 = (y * cell_size) as f64;
-                    let y_max: f64 = y_min as f64 + (cell_size as f64);
-                    println!("   y min: {} max: {}", y_min, y_max);
-                    println!("fill: {}", fill);
+            for x in 0..GRID_SIZE {
+                for y in 0..GRID_SIZE {
                     if grid[x][y] > 0 {
+                        let x_position: f64 = (x * CELL_SIZE) as f64;
+                        let y_position: f64 = (y * CELL_SIZE) as f64;
                         rectangle([1.0, 0.0, 0.0, 1.0], // red
-                                  [x_min, y_min, cell_size as f64, cell_size as f64],
+                                  [x_position, y_position, CELL_SIZE as f64, CELL_SIZE as f64],
                                   c.transform, g);
                     }
                 }
-                if grid_size % 2 == 0 {
+                if GRID_SIZE % 2 == 0 {
                     fill = !fill;
                 }
             }
         });
+
+        if let Some(pos) = e.mouse_cursor_args() {
+            mouse_x = pos[0];
+            mouse_y = pos[1];
+        }
+
+        if let Some(button) = e.press_args() {
+            if button == Button::Mouse(MouseButton::Left) {
+                println!("Pressed {:?}", button);
+                println!("Mouse position x:{:?} y:{:?}", mouse_x, mouse_y);
+            }
+        }
     }
 }
