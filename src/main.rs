@@ -16,9 +16,6 @@ fn main() {
     for e in window.ups(updates).max_fps(updates) {
         e.draw_2d(|c, g| {
             println!("Redraw");
-            if game.run {
-                game.game_step();
-            }
             clear([1.0; 4], g);
             for x in 0..BOARD_SIZE {
                 for y in 0..BOARD_SIZE {
@@ -30,6 +27,13 @@ fn main() {
                                   c.transform, g);
                     }
                 }
+            }
+        });
+
+        e.update(|_args| {
+            println!("Update");
+            if game.run {
+                game.game_step();
             }
         });
 
