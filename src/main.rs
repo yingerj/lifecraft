@@ -1,4 +1,5 @@
 extern crate piston_window;
+extern crate gfx_voxel;
 mod game;
 
 use piston_window::*;

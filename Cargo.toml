@@ -4,4 +4,5 @@ version = "0.1.0"
 authors = ["Jack Zark Yinger <jack.yinger@gmail.com>"]
 
 [dependencies]
-piston_window = "0.32.0"
+piston_window = "0.33.0"
+piston3d-gfx_voxel = "0.6.0"
