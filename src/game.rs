@@ -34,26 +34,6 @@ impl GameOfLife {
         }
     }
 
-//TODO: Bring event handling in here from main.
-/*
-    pub fn render(&mut self) {
-        |c, g| {
-            println!("Redraw");
-            clear([1.0; 4], g);
-            for x in 0..BOARD_SIZE {
-                for y in 0..BOARD_SIZE {
-                    if self.board[x][y] {
-                        let x_position: f64 = (x * CELL_SIZE) as f64;
-                        let y_position: f64 = (y * CELL_SIZE) as f64;
-                        rectangle([0.0, 0.0, 0.0, 1.0], // red
-                                  [x_position, y_position, CELL_SIZE as f64, CELL_SIZE as f64],
-                                  c.transform, g);
-                    }
-                }
-            }
-        }
-    }
-*/
     pub fn toggle_cell(&mut self) {
         let cell_size = CELL_SIZE as f64;
         let x = (self.mouse_pos[0]/cell_size) as usize;
